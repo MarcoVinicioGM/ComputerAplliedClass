@@ -1,8 +1,8 @@
-!/bin/bash
+#!/bin/bash
 
 while true; do
     clear
-    echo "Menú de opciones:"
+    echo "Menu de opciones:"
     echo "1) Mostrar directorio actual"
     echo "2) Cambiar directorio"
     echo "3) Listar archivos del directorio actual"
@@ -41,7 +41,7 @@ while true; do
             exit 0
             ;;
         *)
-            echo "Opción incorrecta"
+            echo "Opcion incorrecta"
             ;;
     esac
     echo -n "Presione Enter para continuar..."

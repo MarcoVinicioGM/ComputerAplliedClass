@@ -1,19 +1,19 @@
-!/bin/bash
+#!/bin/bash
 
 
 if [ $# -ne 1 ]; then
-    echo "Error: Se requiere exactamente 1 parámetro"
+    echo "Error: Se requiere exactamente 1 parametro"
     echo "Uso: $0 palabra"
     exit 1
 fi
 
-# Convertir a minúsculas y eliminar espacios
+# Convertir a lowercase (minimina?) y eliminar espacios
 palabra=$(echo "$1" | tr '[:upper:]' '[:lower:]' | tr -d ' ')
 reversa=$(echo "$palabra" | rev)
 
 if [ "$palabra" = "$reversa" ]; then
-    echo "Es un palíndromo"
+    echo "Es un palindromo"
 else
-    echo "No es un palíndromo"
+    echo "No es un palindromo"
 fi
 
