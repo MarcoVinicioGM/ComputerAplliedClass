@@ -1,0 +1,188 @@
+#!/bin/bash
+#
+#Echo 1 a 5
+for n in {1..5};
+do
+    echo $n
+done
+
+#mostra la fecha
+contador=1
+while [ $contador -le 10 ];
+do
+    date
+    sleep 2
+    ((contador++))
+done
+
+# Script c) reiniciar el sistema
+if [ "$EUID" -ne 0 ]; then
+    echo "Este script debe ser ejecutado como root"
+    exit 1
+fi
+echo "El sistema se reiniciará en 1 minuto"
+sleep 60
+shutdown -r now
+
+# Script d) buscar_palabra.sh
+#!/bin/bash
+if [ $# -ne 2 ]; then
+    echo "Error: Se requieren exactamente 2 parámetros"
+    echo "Uso: $0 palabra archivo"
+    exit 1
+fi
+
+if [ ! -f "$2" ]; then
+    echo "Error: El archivo no existe"
+    exit 1
+fi
+
+if grep -q "$1" "$2"; then
+    echo "Palabra encontrada"
+else
+    echo "Palabra no encontrada"
+fi
+
+# Script e) verificar_archivo.sh
+#!/bin/bash
+if [ $# -ne 1 ]; then
+    echo "Error: Se requiere exactamente 1 parámetro"
+    echo "Uso: $0 ruta_archivo"
+    exit 1
+fi
+
+if [ -e "$1" ]; then
+    echo "El archivo existe"
+    if [ -f "$1" ]; then
+        echo "Es un archivo regular"
+    elif [ -d "$1" ]; then
+        echo "Es un directorio"
+    elif [ -L "$1" ]; then
+        echo "Es un enlace simbólico"
+    elif [ -b "$1" ]; then
+        echo "Es un archivo de bloque"
+    elif [ -c "$1" ]; then
+        echo "Es un archivo de caracteres"
+    elif [ -p "$1" ]; then
+        echo "Es una tubería nombrada (FIFO)"
+    elif [ -S "$1" ]; then
+        echo "Es un socket"
+    fi
+else
+    echo "El archivo no existe"
+fi
+
+# Script f) comparar_numeros_teclado.sh
+#!/bin/bash
+comparar_numeros() {
+    if [ $1 -eq $2 ]; then
+        echo "Los números son iguales"
+    elif [ $1 -gt $2 ]; then
+        echo "El primer número ($1) es mayor que el segundo ($2)"
+    else
+        echo "El segundo número ($2) es mayor que el primero ($1)"
+    fi
+}
+
+echo "Ingrese el primer número:"
+read num1
+echo "Ingrese el segundo número:"
+read num2
+
+if [[ "$num1" =~ ^[0-9]+$ ]] && [[ "$num2" =~ ^[0-9]+$ ]]; then
+    comparar_numeros $num1 $num2
+else
+    echo "Error: Debe ingresar números enteros"
+fi
+
+# Script g) comparar_numeros_params.sh
+#!/bin/bash
+comparar_numeros() {
+    if [ $1 -eq $2 ]; then
+        echo "Los números son iguales"
+    elif [ $1 -gt $2 ]; then
+        echo "El primer número ($1) es mayor que el segundo ($2)"
+    else
+        echo "El segundo número ($2) es mayor que el primero ($1)"
+    fi
+}
+
+if [ $# -ne 2 ]; then
+    echo "Error: Se requieren exactamente 2 parámetros"
+    echo "Uso: $0 numero1 numero2"
+    exit 1
+fi
+
+if [[ "$1" =~ ^[0-9]+$ ]] && [[ "$2" =~ ^[0-9]+$ ]]; then
+    comparar_numeros $1 $2
+else
+    echo "Error: Los parámetros deben ser números enteros"
+fi
+
+# Script h) menu.sh
+#!/bin/bash
+while true; do
+    clear
+    echo "Menú de opciones:"
+    echo "1) Mostrar directorio actual"
+    echo "2) Cambiar directorio"
+    echo "3) Listar archivos del directorio actual"
+    echo "4) Crear directorio"
+    echo "5) Salir"
+    echo -n "Seleccione una opción: "
+    read opcion
+
+    case $opcion in
+        1)
+            pwd
+            ;;
+        2)
+            echo -n "Ingrese el nombre del directorio: "
+            read dir
+            if cd "$dir" 2>/dev/null; then
+                echo "Directorio cambiado exitosamente"
+            else
+                echo "Error: No se pudo cambiar al directorio"
+            fi
+            ;;
+        3)
+            find . -maxdepth 1 -type f
+            ;;
+        4)
+            echo -n "Ingrese el nombre del nuevo directorio: "
+            read newdir
+            if mkdir "$newdir" 2>/dev/null; then
+                echo "Directorio creado exitosamente"
+            else
+                echo "Error: No se pudo crear el directorio"
+            fi
+            ;;
+        5)
+            echo "¡Hasta luego, $USER!"
+            exit 0
+            ;;
+        *)
+            echo "Opción incorrecta"
+            ;;
+    esac
+    echo -n "Presione Enter para continuar..."
+    read
+done
+
+# Script i) palindromo.sh
+#!/bin/bash
+if [ $# -ne 1 ]; then
+    echo "Error: Se requiere exactamente 1 parámetro"
+    echo "Uso: $0 palabra"
+    exit 1
+fi
+
+# Convertir a minúsculas y eliminar espacios
+palabra=$(echo "$1" | tr '[:upper:]' '[:lower:]' | tr -d ' ')
+reversa=$(echo "$palabra" | rev)
+
+if [ "$palabra" = "$reversa" ]; then
+    echo "Es un palíndromo"
+else
+    echo "No es un palíndromo"
+fi
